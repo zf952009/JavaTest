@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <!--package :讲action 配置封装，就是可以在package中配置多个action
+        name属性 ：包名，起到标识作用，不能重复
+        namespace属性：给action的访问路径定义一个命名空间
+        extends 属性：继承一个指定的包
+        abstract属性：包是否为抽象，标识属性，标识该包不能独立运行，专门被继承
+    -->
+    <!--Struts常量配置，一般在Struts.xml中配置-->
+    <!--i18n:国际化，可以解决post提交乱码问题-->
+    <constant name="struts.i18n.encoding" value="UTF-8"></constant>
+    <constant name="struts.locale" value="UTF-8"></constant>
+    <!--action :访问action是的后缀-->
+    <constant name="struts.action.extension" value="action,,"></constant>
+    <!--struts2是否以开发模式运行 ，开启后可以热加载主配置（不用重启），提供更多的错误信息，方便开发调试-->
+    <constant name="struts.devMode" value="true"></constant>
+
+    <package name="Demo1Action" namespace="/" extends="struts-default">
+        <!--注册拦截器-->
+        <interceptors>
+            <interceptor name="myStack" class="in.itcast.interceptor.LoginInterceptor">
+                <!--指定哪些方法拦截,只能二选一-->
+                <param name="excludeMethods">login</param>
+                <!--指定拿些方法不拦截
+                <param name="includeMethods">login</param>-->
+            </interceptor>
+            <!--引入默认的20个拦截器，如果没有引入就只有自定义的拦截器-->
+            <interceptor-stack name="defaultSack"></interceptor-stack>
+        </interceptors>
+        <!--指定当前包中的默认拦截器栈-->
+      <!--  <default-interceptor-ref name="myStack"></default-interceptor-ref>-->
+        <!--全局结果节定义,只对action有效，其他的无效-->
+        <global-results>
+            <result name="toLogin" type="redirect">/login.jsp</result>
+        </global-results>
+        <!--<global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"></exception-mapping>
+        </global-exception-mappings>-->
+        <!--动态方法调用2，利用通配符*
+        实例
+        http://localhost:8080/DemoStruts2/demo/      Demo1Action_update
+        -->
+        <action name="Demo1Action_*" class="in.itcast.action.Demo1Action" method="{1}">
+            <!--为当前action单独指定拦截器栈
+            <interceptor-ref name="myStack"></interceptor-ref>-->
+            <result name="success">/index.jsp</result>
+        </action>
+        <action name="DemoAction" class="in.itcast.action.DemoAction" method="demo">
+            <result name="success" type="redirect">/index.jsp</result>
+        </action>
+
+        <action name="Demo3Action" class="in.itcast.action.Demo3Action" method="{1}">
+            <result name="success" type="redirect">/demo.jsp</result>
+        </action>
+
+        <action name="DemoResult" class="in.itcast.action.DemoResult" method="execute">
+            <result name="success" type="redirect">/demo.jsp</result>
+        </action>
+
+        <action name="Tb_WebAction_*" class="in.itcast.action.Tb_WebAction" method="{1}">
+            <result name="list" type="dispatcher">/list_web.jsp</result>
+            <!--转发到指定的Action-->
+            <result name="toList" type="redirectAction">
+                <!--指定要转到的Action名称-->
+                <param name="actionName">Tb_WebAction_list</param>
+                <!--要转到的命名空间-->
+                <param name="namespace">/</param>
+            </result>
+        </action>
+        <action name="RegularAction_*" class="in.itcast.action.RegularAction" method="{1}">
+            <result name="list">/regular.jsp</result>
+            <result name="addError" type="redirectAction">
+                <param name="actionName">RegularAction_list</param>
+                <param name="namespace">/error.jsp</param>
+            </result>
+            <result name="toList" type="redirectAction">
+                <param name="actionName">RegularAction_list</param>
+                <param name="namespace">/error.jsp</param>
+            </result>
+        </action>
+
+        <action name="OGNLAction" class="in.itcast.action.OGNLAction" method="execute">
+            <result name="success">/ognl.jsp</result>
+        </action>
+
+        <action name="UserAction_*" class="in.itcast.action.UserAction" method="{1}">
+            <result name="toIndex">/index.jsp</result>
+            <result name="error">/demo.jsp</result>
+        </action>
+
+        <!--文件列表配置-->
+        <action name="File_List_*" class="in.itcast.action.File_ListAction" method="{1}">
+            <result name="file_list">/file_list.jsp</result>
+            <result name="systemFileList">/systemFileList.jsp</result>
+        </action>
+
+        <!--you-get 配置-->
+        <action name="YouGet_*" class="in.itcast.action.YouGetAction" method="{1}">
+            <result name="success">/form_you_get.jsp</result>
+        </action>
+
+    </package>
+
+    <!--引入其他配置文件-->
+   <!-- <include file="in/itcast/action/struts_Demo1Action.xml"></include>
+    <include file="in/itcast/action/struts_Demo2Action.xml"></include>
+    <include file="in/itcast/action/struts_DemoAction.xml"></include>
+    <include file="in/itcast/action/struts_Tb_WebAction.xml"></include>
+    <include file="in/itcast/action/struts_ResultAction.xml"></include>-->
+</struts>

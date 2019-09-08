@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="in.itcast.domain">
+    <class name="Customer" table="cst_customer">
+        <!--表主建配置-->
+        <id name="cust_id" column="cust_id">
+            <generator class="native"></generator>
+        </id>
+        <!--实体属性和数据表对应的字段名-->
+        <property name="cust_name"></property>
+        <property name="cust_source"></property>
+        <property name="cust_industry"></property>
+        <property name="cust_level"></property>
+        <property name="cust_linkman"></property>
+        <property name="cust_phone"></property>
+        <property name="cust_mobile"></property>
+        
+        <!--集合，一对多的配置-->
+        <!--
+            name属性：集合属性名
+            column属性：外键列名
+        -->
+        <!--
+            级联操作：cascade—简化操作，更新数据时相关的数据回会同步更新（删除，添加，修改）
+                      save-update:级联保存更新
+                      delete：级联删除
+                      all:save—update+dele
+        -->
+        <!--
+        inverse:属性：配置关系是否维护属性
+            true：不维护关系
+            false（默认值）:维护关系
+            inverse：性能优化，提高关系维护的性能
+            重点：无论怎么放弃维护，总有一方必须维护，
+            一对多的关系中，一的一方放弃维护，也只能一的一方放弃，多的一方不能放弃
+            （多的一方必须维护自己的外键）
+        -->
+        <set name="linkmans" inverse="true">
+            <key column="lkm_cust_id"></key>
+            <one-to-many class="Linkman"/>
+        </set>
+        
+        
+
+    </class>
+</hibernate-mapping>

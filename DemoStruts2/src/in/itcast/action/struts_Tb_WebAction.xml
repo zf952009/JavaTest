@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="tb_web" namespace="/" extends="struts-default">
+        <action name="Tb_WebAction_*" class="in.itcast.action.Tb_WebAction" method="{1}">
+            <result name="list">/list_web.jsp</result>
+        </action>
+    </package>
+</struts>
