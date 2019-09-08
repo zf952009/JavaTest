@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="in.itcast.domain">
+    <class name="Linkman" table="cst_linkman">
+        <!--表主建配置-->
+        <id name="lkm_id" column="lkm_id">
+            <generator class="native"></generator>
+        </id>
+        <!--实体属性和数据表对应的字段名-->
+        <property name="lkm_gender"></property>
+        <property name="lkm_name"></property>
+        <property name="lkm_phone"></property>
+        <property name="lkm_mobile"></property>
+        <property name="lkm_email"></property>
+        <property name="lkm_qq"></property>
+        <property name="lkm_position"></property>
+        <property name="lkm_memo"></property>
+
+        <!--多对一关系配置-->
+        <!--
+            name属性：引用属性名
+            column属性：外键列名
+            class 属性：与我关联的对象的完整类名
+        -->
+
+        <many-to-one name="customer" class="Customer" column="lkm_cust_id" cascade="save-update"></many-to-one>
+        
+
+    </class>
+</hibernate-mapping>

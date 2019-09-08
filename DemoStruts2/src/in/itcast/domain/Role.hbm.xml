@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="in.itcast.domain">
+    <class name="Role" table="sys_role">
+        <!--表主建配置-->
+        <id name="role_id" column="role_id">
+            <generator class="native"></generator>
+        </id>
+        <!--实体属性和数据表对应的字段名-->
+        <property name="role_name"></property>
+        <property name="role_memo"></property>
+
+
+        <!--多对多表的配置-->
+        <!--
+            inverse:（true）放弃维护外键关系
+            多对多表中必须有一方放弃维护外键关系，
+            一对多的关系中，一的一方放弃维护，也只能一的一方放弃，多的一方不能放弃
+            （多的一方必须维护自己的外键）
+        -->
+        <set name="users" table="sys_user_role" inverse="true">
+            <key column="role_id"></key>
+            <many-to-many class="User" column="user_id" lazy="false"></many-to-many>
+        </set>
+        
+
+    </class>
+</hibernate-mapping>

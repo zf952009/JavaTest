@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="in.itcast.domain">
+    <class name="User" table="sys_user">
+        <!--表主建配置-->
+        <id name="user_id" column="user_id">
+            <generator class="native"></generator>
+        </id>
+        <!--实体属性和数据表对应的字段名-->
+        <property name="user_code"></property>
+        <property name="user_name"></property>
+        <property name="user_password"></property>
+        <property name="user_state"></property>
+
+        <!--多对多表的配置-->
+        <set name="roles" table="sys_user_role" cascade="save-update">
+            <key column="user_id"></key>
+            <many-to-many class="Role" column="role_id" lazy="false"></many-to-many>
+        </set>
+        
+
+    </class>
+</hibernate-mapping>
